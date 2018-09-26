@@ -1,0 +1,31 @@
+<!-- brings in the test library -->
+<script src="../tinytest.js"></script>
+<!-- references the javascript file which has the adder function  -->
+<script src="adder.js"></script>
+<script>
+
+// a function called tests that is passed an object as an argument.
+// the object is made up of requirements/tests
+tests({
+
+// adds numbers is the name of the requirement/test
+// it calls a function
+// the 1st test is calling the add function (accesible from the linked adder.js file)
+// it's expecting that the two arguments are equal to one another
+// six is the first argument passed
+// the second argument passed is the add function which is passed two numbers as arguments and returns the sum
+// these two arguments are expected to be equal. if they are this test passes if not it fails
+  'adds numbers': function() {
+    eq(6, add(2, 4));
+// this is the second test
+    eq(6.6, add(2.6, 4));
+  },
+
+// this is a new test named subtracts numbers
+  'subtracts numbers': function() {
+// this works the same was as above but it's adding a negative number an should result in a negative answer and these two arguments should also be equal
+    eq(-2, add(2, -4));
+  },
+
+});
+</script>
