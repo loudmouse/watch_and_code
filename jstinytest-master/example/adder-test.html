@@ -1,11 +1,42 @@
 <script src="../tinytest.js"></script>
 <script>
 
+// // for each function written from scratch
+// // 1st argument passed is an array and 2nd argument passed is a callback function
+// // this will log 'hi' to the cosole ith # of times depending on the number of elements in the array.
+//
+// // Example 1:
+// forEach([1,2,3], function() {
+// 	console.log('hi');
+// });
+
+// // 1st argument pass is an array and 2nd argument passed is a callback function that is passed the element of the array
+// // this will log the ith number of the array to the console.
+// // Example 2:
+// forEach([1,2,3], function(number) {
+//   console.log(number);
+// });
+
+function forEach(array, callback){
+  for (var i = 0; i < array.length; i++) {
+    callback(array[i]); // somewhere here
+  }
+}
 
 tests({
 
-  '': function() {},
-  '': function() {},
+  'It should run the callback function array.length number of times': function() {
+    var counter = 0
+    forEach([1,2,3], function() {
+      counter++;
+    });
+    eq(counter, 3);
+  },
+  'It should pass in the ith element as the first argument to the callback': function() {
+    forEach([1], function(number) {
+      eq(number, 1);
+    });
+  },
 
 });
 </script>
