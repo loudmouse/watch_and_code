@@ -29,27 +29,34 @@
 //   console.log(number);
 // });
 
-function forEach(array, callback, optionalThisObject){
-  var forEachCallback = callback;
-  // If configurableThisObject exists.
+// function forEach(array, callback, optionalThisObject){
+//   var forEachCallback = callback;
+//   if (optionalThisObject) {
+//     forEachCallback = callback.bind(optionalThisObject)
+//   }
+//   for (var i = 0; i < array.length; i++) {
+//     forEachCallback(array[i], i, array); // somewhere here
+//   }
+// }
+
+function forEach(array, callback, optionalThisObject) {
+  var forEachCallback = callback
   if (optionalThisObject) {
-    // want to bind configurableThisObject to the callback function
     forEachCallback = callback.bind(optionalThisObject);
   }
-
   for (var i = 0; i < array.length; i++) {
-    forEachCallback(array[i], i, array); // somewhere here
+    forEachCallback(array[i], i, array);
   }
 }
 
 tests({
 
   'It should run the callback function array.length number of times': function() {
-    var numberOfTimesCallbackHasRun = 0
+    var counter = 0
     forEach([1,2,3], function() {
-      numberOfTimesCallbackHasRun++;
+      counter++;
     });
-    eq(numberOfTimesCallbackHasRun, 3);
+    eq(counter, 3);
   },
   'It should pass in the ith element as the first argument to the callback': function() {
     forEach([1], function(number) {
@@ -67,10 +74,10 @@ tests({
       eq(originalArray, testArray);
     });
   },
-  'It should accept an optional this object': function() {
+  'It should accept a configurable this object': function() {
     forEach([1], function() {
-      eq(this.description, 'I should be accessible inside the callback.');
-    }, {description: 'I should be accessible inside the callback.'});
+      eq(this.description, "This is an optional this object.")
+    }, {description: "This is an optional this object."})
   },
 
 });
