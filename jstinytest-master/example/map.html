@@ -39,7 +39,14 @@ tests({
   },
 
   'It should pass the ith element of the array as the first argument to the callback': function() {
-    fail();
+    // define the array
+    // call the function and pass it array
+    // in the callback pass it the number
+    // check that number is equal to first number in array
+    var array = [1];
+    map(array, function(number) {
+      eq(number, 1);
+    });
   }
 
 });
