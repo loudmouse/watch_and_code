@@ -16,8 +16,14 @@ tests({
 
   'It should run the callback array.length number of times': function() {
     // create a counter
-    // write the function, passing it an array, and a callback function, increment counter in the callback
+    // call the function, passing it an array, and a callback function, increment counter in the callback
     // after callback check that the counter is equal to array.length
+    var counter = 0;
+    var array = [1,2,3];
+    map(array, function() {
+      counter++;
+    });
+    eq(counter, array.length);
   }
 
 });
