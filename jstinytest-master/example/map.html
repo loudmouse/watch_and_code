@@ -54,7 +54,12 @@ tests({
   },
 
   'It should pass the ith position as the second argument to the callback': function() {
-    fail();
+    // call the function and pass it an array
+    // in the callback pass it a number and the index
+    // check that the index is equal to the index of the first element of the array which is 0
+    map([1], function(number, index) {
+      eq(index, 0);
+    });
   }
 
 });
