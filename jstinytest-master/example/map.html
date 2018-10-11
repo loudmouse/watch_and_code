@@ -12,6 +12,12 @@
 // callback runs array array.length number of times
 // map([1,2,3], function() {});
 
+// Example 2:
+// the ith element of the array is the first argument passed to the callback
+// map([1,2,3], function(number) {
+//  console.log(number);
+// });
+
 function map(array, callback) {
   for (var i = 0; i < array.length; i++) {
     callback();
