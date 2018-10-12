@@ -24,17 +24,21 @@
 //  console.log(index);
 // });
 
+// Example 4:
+// the original array is the third argument passed to the callback
+// map([1,2,3], function(number, index, originalArray) {
+//  console.log(originalArray);
+// });
 
-
-function map(array, callback) {
-  for (var i = 0; i < array.length; i++) {
-    callback(array[i], i);
+function map(originalArray, callback) {
+  for (var i = 0; i < originalArray.length; i++) {
+    callback(originalArray[i], i, originalArray);
   };
 }
 
 tests({
 
-  'It should run the callback array.length number of times': function() {
+  '1. It should run the callback array.length number of times': function() {
     // create a counter
     // call the function, passing it an array, and a callback function, increment counter in the callback
     // after callback check that the counter is equal to array.length
@@ -46,7 +50,7 @@ tests({
     eq(counter, array.length);
   },
 
-  'It should pass the ith element of the array as the first argument to the callback': function() {
+  '2. It should pass the ith element of the array as the first argument to the callback': function() {
     // call the function and pass it array
     // in the callback pass it the number
     // check that number is equal to first number in array
@@ -55,12 +59,23 @@ tests({
     });
   },
 
-  'It should pass the ith position as the second argument to the callback': function() {
+  '3. It should pass the ith position as the second argument to the callback': function() {
     // call the function and pass it an array
     // in the callback pass it a number and the index
     // check that the index is equal to the index of the first element of the array which is 0
     map([1], function(number, index) {
       eq(index, 0);
+    });
+  },
+
+  '4. It should pass the originalArray as the third argument to the callback': function() {
+    // define a testArray
+    // call the map function and pass it a testArray
+    // in the callback function pass it the number, index, and the originalArray
+    // inside the callback check that the testArray is equal to the originalArray
+    var testArray = [1,2,3];
+    map(testArray, function(number, index, originalArray) {
+      eq(testArray, originalArray);
     });
   }
 
