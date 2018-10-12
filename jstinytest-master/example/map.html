@@ -30,10 +30,20 @@
 //  console.log(originalArray);
 // });
 
-function map(originalArray, callback) {
+// Example 5:
+// the  function accepts an optionalThisObject
+// map([1,2,3], function(number, index, originalArray) {
+//  console.log(this.optionalThisObject);
+// }, {optionalThisObject: "this is an optionalThisObject"});
+
+function map(originalArray, callback, optionalThisObject) {
+  var mapCallback = callback;
+  if (optionalThisObject) {
+    mapCallback = callback.bind(optionalThisObject);
+  }
   for (var i = 0; i < originalArray.length; i++) {
-    callback(originalArray[i], i, originalArray);
-  };
+    mapCallback(originalArray[i], i, originalArray);
+  }
 }
 
 tests({
@@ -77,7 +87,16 @@ tests({
     map(testArray, function(number, index, originalArray) {
       eq(testArray, originalArray);
     });
-  }
+  },
+
+  '5. It should accept an optionalThisObject': function() {
+    // call the map function and pass it an array
+    // after the callback function provide an optionalThis
+    // inside the callback check that the optionalThis is equal to calling the object
+    map([1], function() {
+      eq(this.name, "My name is Nolan, and I'm an optional this object.");
+    }, {name: "My name is Nolan, and I'm an optional this object."});
+  },
 
 });
 
