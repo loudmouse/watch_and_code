@@ -36,6 +36,10 @@
 //  console.log(this.optionalThisObject);
 // }, {optionalThisObject: "this is an optionalThisObject"});
 
+// Example 6:
+// the method creates a new array
+// var mappedArray = map([1,2,3], function() {});
+
 function map(originalArray, callback, optionalThisObject) {
   var mapCallback = callback;
   if (optionalThisObject) {
@@ -44,6 +48,8 @@ function map(originalArray, callback, optionalThisObject) {
   for (var i = 0; i < originalArray.length; i++) {
     mapCallback(originalArray[i], i, originalArray);
   }
+
+  return []
 }
 
 tests({
@@ -97,6 +103,15 @@ tests({
       eq(this.name, "My name is Nolan, and I'm an optional this object.");
     }, {name: "My name is Nolan, and I'm an optional this object."});
   },
+
+  '6. It should return an array.': function() {
+    // define an originalArray
+    // call the map method and assign the returned value to mappedArray
+    // check if mappedArray is an array. If it is it will evaluate to true and the equality test will pass
+    var originalArray = [1,2,3];
+    var mappedArray = map(originalArray, function() {});
+    eq(Array.isArray(mappedArray), true);
+  }
 
 });
 
