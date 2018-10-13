@@ -40,6 +40,10 @@
 // the method creates a new array
 // var mappedArray = map([1,2,3], function() {});
 
+// Example 7:
+// the new method should be different from the original
+
+
 function map(originalArray, callback, optionalThisObject) {
   var mapCallback = callback;
   if (optionalThisObject) {
@@ -111,6 +115,12 @@ tests({
     var originalArray = [1,2,3];
     var mappedArray = map(originalArray, function() {});
     eq(Array.isArray(mappedArray), true);
+  },
+
+  '7. It should return mappedArray which is different from originalArray': function() {
+    var originalArray = [1];
+    var mappedArray = map(originalArray, function() {});
+    eq(originalArray !== mappedArray, true);
   }
 
 });
