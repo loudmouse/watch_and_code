@@ -38,22 +38,40 @@
 
 // Example 6:
 // the method creates a new array
-// var mappedArray = map([1,2,3], function() {});
+// var mappedArray = map([1,2,3], function() {
+//   return [];
+// });
 
 // Example 7:
 // the new method should be different from the original
+// var originalArray = [1,2,3];
+// var mappedArray = map(originalArray, function() {});
+// originalArray !== mappedArray;
+
+// Example 8:
+// original array should have something done to each element and the results of each will then be in mapped array
+// var originalArray = [1,2,3];
+// var mappedArray = map(originalArray, function(element){
+//  return element * 2;
+// });
+// expect mappedArray = [2,4,6];
 
 
-function map(originalArray, callback, optionalThisObject) {
+function map(originalArray, callback, optionalThis) {
   var mapCallback = callback;
-  if (optionalThisObject) {
-    mapCallback = callback.bind(optionalThisObject);
-  }
-  for (var i = 0; i < originalArray.length; i++) {
-    mapCallback(originalArray[i], i, originalArray);
+
+  if (optionalThis) {
+    mapCallback = callback.bind(optionalThis);
   }
 
-  return []
+  var mappedArray= [];
+
+
+  for (var i = 0; i < originalArray.length; i++) {
+    mappedArray.push(mapCallback(originalArray[i], i, originalArray));
+  }
+
+  return mappedArray;
 }
 
 tests({
@@ -62,12 +80,12 @@ tests({
     // create a counter
     // call the function, passing it an array, and a callback function, increment counter in the callback
     // after callback check that the counter is equal to array.length
-    var counter = 0;
+    var numberOfTimesCallbackHasRun = 0;
     var array = [1,2,3];
     map(array, function() {
-      counter++;
+      numberOfTimesCallbackHasRun++;
     });
-    eq(counter, array.length);
+    eq(numberOfTimesCallbackHasRun, array.length);
   },
 
   '2. It should pass the ith element of the array as the first argument to the callback': function() {
@@ -118,9 +136,17 @@ tests({
   },
 
   '7. It should return mappedArray which is different from originalArray': function() {
-    var originalArray = [1];
+    var originalArray = [];
     var mappedArray = map(originalArray, function() {});
     eq(originalArray !== mappedArray, true);
+  },
+
+  '8. It should return a mapped array': function() {
+    debugger;
+    var mappedArray = map([1], function(number) {
+      return number * 4;
+    });
+    eq(mappedArray[0], 4);
   }
 
 });
