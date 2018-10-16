@@ -68,7 +68,9 @@ function map(originalArray, callback, optionalThis) {
 
 
   for (var i = 0; i < originalArray.length; i++) {
-    mappedArray.push(mapCallback(originalArray[i], i, originalArray));
+    if(i in originalArray) {
+      mappedArray[i] = mapCallback(originalArray[i], i, originalArray);
+    }
   }
 
   return mappedArray;
@@ -142,11 +144,23 @@ tests({
   },
 
   '8. It should return a mapped array': function() {
-    debugger;
     var mappedArray = map([1], function(number) {
       return number * 4;
     });
     eq(mappedArray[0], 4);
+  },
+
+  '9. It should skip unassigned indexes.': function() {
+    debugger;
+    var weirdArray = [, 1];
+    var mappedArray = map(weirdArray, function double(number) {
+      return number * 2;
+    });
+    // property in object
+    // (0 in mappedArray) === false;
+    // mappedArray[1] === 2;
+    eq(0 in mappedArray, false);
+    eq(mappedArray[1], 2);
   }
 
 });
