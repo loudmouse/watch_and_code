@@ -93,24 +93,24 @@
   // array
 
 // Return Value:
-//  returns a single value
+  // returns a single value
 
-// Requirement:
+// Requirements:
 
-// reduce() executes the callback function once for each element present in the array
-// Excludes holes in the array (e.g. [/* hole */, 1])
+// Callback should not run on holes in the array
 
-// Case A: initialValue is provided
-  // previousValue will be equal to initialValue
-  // currentValue will be equal to the first value in the array
+// If initialValue, previousValue should be equal to initialValue.
 
-  // callback will start at index 0
+// If initialValue, currentValue should be equal to the first value in the array.
 
-// Case B: initialValue not provided
-  // previousValue will be equal to the first value in the array
-  // currentValue will be equal to the second value in the array
+// If initialValue, callback will start at index 0.
 
-  // callback will start at index 1, which is the second element
+// If no initialValue, previousValue should be equal to the first value in the array.
+
+// If no initialValue, currentValue should be equal to the second value in the array.
+
+// If no initialValue, callback will start at index 1.
+
 
 // Edge Cases
   // If array is empty and no initialValue was provided, TypeError should be thrown.
