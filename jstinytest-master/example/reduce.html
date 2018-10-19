@@ -97,44 +97,21 @@
 
 // Requirements:
 
-// Callback should not run on holes in the array
-
-// If initialValue, previousValue should be equal to initialValue.
-
-// If initialValue, currentValue should be equal to the first value in the array.
-
+// If initialValue, previousValue should start with initialValue.
+// If initialValue, currentValue should start with array[0].
 // If initialValue, callback will start at index 0.
 
-// If no initialValue, previousValue should be equal to the first value in the array.
-
-// If no initialValue, currentValue should be equal to the second value in the array.
-
+// If no initialValue, previousValue should start with array[0].
+// If no initialValue, currentValue should start with array[1].
 // If no initialValue, callback will start at index 1.
 
+// If initialValue, and array is empty, return only element without calling callback.
+// If no initialValue, and array has one element, return only element without calling callback.
 
-// Edge Cases
-  // If array is empty and no initialValue was provided, TypeError should be thrown.
-  // reduce([], function(){}) ===> TypeError)
-
-  // If array has one element regardless of position and no initialValue was provided,
-  // or if initialValue is provided but the array is empty, the solo value would be returned,
-  // without calling the callback
-
-  // array with one hole and an element
-  // reduce([/*hole*/, 1], function(){})
-  // return 1 without calling callback
-
-  // array with one element
-  // reduce([1], function(){})
-  // return 1 without calling callback
-
-  // array with no element and provided with initialValue
-  // reduce([], function(){}, 0)
-  // return 0 without calling callback
-
-  // array with holes and provided with initialValue
-  // reduce([/*hole*/, /*hole*/], function(){}, 0)
-  // return 0 without calling callback
+// It should actually reduce.
+// It should exclude holes.
+// If array is empty, and no initialValue, it should throw a TypeError.
+// It should pass array as fourth argument to callback
 
 
 
