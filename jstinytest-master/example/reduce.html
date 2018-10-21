@@ -95,23 +95,105 @@
 // Return Value:
   // returns a single value
 
+  function reduce(array, callback, initialValue) {
+    var startingIndex = 0;
+    var previousValue = initialValue;
+    var currentValue = array[startingIndex];
+
+    // no initialValue
+    if (arguments.length < 3) {
+      previousValue = array[startingIndex];
+      startingIndex++;
+    // Has initialValue
+    } else {
+      // need to check if array is empty
+      if (Object.keys(array).length === 0) {
+        return initialValue;
+      }
+    }
+
+
+    for (var i = startingIndex; i < array.length; i++) {
+      callback(previousValue, array[i], i);
+    }
+
+  }
+
 
 tests({
-  'If initialValue, previousValue should start with initialValue.': function() {},
-  'If initialValue, currentValue should start with array[0].': function() {},
-  'If initialValue, callback will start at index 0.': function() {},
+  'If initialValue, callback should run array.length number of times.': function() {
+    var numberOfTimesCallbackHasRun = 0;
+    reduce([1], function() {
+      numberOfTimesCallbackHasRun++;
+    }, 0);
+    eq(numberOfTimesCallbackHasRun, 1);
+  },
+  'If no initialValue, callback should run array.length - 1 number of times.': function() {
+    var numberOfTimesCallbackHasRun = 0;
+    reduce([1], function() {
+      numberOfTimesCallbackHasRun++;
+    });
+    eq(numberOfTimesCallbackHasRun, 0);
+  },
+  'If initialValue, previousValue should start with initialValue.': function() {
+    reduce([1], function(previousValue){
+      eq(previousValue, 0);
+    }, 0);
+  },
+  'If initialValue, currentValue should start with array[0].': function() {
+    reduce([1], function(previousValue, currentValue) {
+      eq(currentValue, 1)
+    }, 0);
+  },
+  'If initialValue, callback will start at index 0.': function() {
+    reduce([1], function(previousValue, currentValue, currentIndex) {
+      eq(currentIndex, 0);
+    }, 0);
+  },
 
-  'If no initialValue, previousValue should start with array[0].': function() {},
-  'If no initialValue, currentValue should start with array[1].': function() {},
-  'If no initialValue, callback will start at index 1.': function() {},
+  'If no initialValue, previousValue should start with array[0].': function() {
+    reduce([1,2], function(previousValue) {
+      eq(previousValue, 1);
+    });
+  },
+  'If no initialValue, currentValue should start with array[1].': function() {
+    reduce([1,2], function(previousValue, currentValue) {
+      eq(currentValue, 2);
+    });
+  },
+  'If no initialValue, callback will start at index 1.': function() {
+    reduce([1,2], function(previousValue, currentValue, currentIndex) {
+      eq(currentIndex, 1);
+    });
+  },
 
-  'If initialValue, and array is empty, return only element without calling callback.': function() {},
-  'If no initialValue, and array has one element, return only element without calling callback.': function() {},
+  'If initialValue, and array is empty, return only element without calling callback.': function() {
+    var numberOfTimesCallbackHasRun = 0;
+    var initialValue = 0;
+    var reduceResult = reduce([,,], function() {
+      numberOfTimesCallbackHasRun++;
+    }, initialValue);
+    eq(reduceResult, initialValue);
+    eq(numberOfTimesCallbackHasRun, 0);
+  },
+  'If no initialValue, and array has one element, return only element without calling callback.': function() {
+    var startingArray = [1];
+    var reduceResult = reduce(startingArray, function() {});
+    eq(startingArray[0], reduceResult);
+  },
 
-  'It should actually reduce.': function() {},
-  'It should exclude holes.': function() {},
-  'If array is empty, and no initialValue, it should throw a TypeError.': function() {},
-  'It should pass array as fourth argument to callback.': function() {}
+  'It should actually reduce.': function() {
+    fail();
+  },
+  'It should exclude holes.': function() {
+    fail();
+  },
+  'If array is empty, and no initialValue, it should throw a TypeError.': function() {
+    fail();
+  },
+  'It should pass array as fourth argument to callback.': function() {
+    fail();
+  }
 });
 
 
