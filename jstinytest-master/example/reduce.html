@@ -104,6 +104,14 @@
     if (arguments.length < 3) {
       previousValue = array[startingIndex];
       startingIndex++;
+
+      // If array has one element just return it
+      if (Object.keys(array).length === 1) {
+        var singleIndex = Object.keys(array)[0];
+        var singleElement = array[singleIndex];
+        return singleElement;
+      }
+
     // Has initialValue
     } else {
       // need to check if array is empty
@@ -114,8 +122,12 @@
 
 
     for (var i = startingIndex; i < array.length; i++) {
-      callback(previousValue, array[i], i);
+      if (i in array) {
+        previousValue = callback(previousValue, array[i], i);
+      }
     }
+
+    return previousValue;
 
   }
 
@@ -183,10 +195,22 @@ tests({
   },
 
   'It should actually reduce.': function() {
-    fail();
+    var sum = reduce([1,2,3], function(a, b) {
+      return a + b;
+    }, 0);
+    eq(sum, 6);
   },
-  'It should exclude holes.': function() {
-    fail();
+  'If intitialValue, it should exclude holes.': function() {
+    var sum = reduce([,1,2,,3,], function(a, b) {
+      return a + b;
+    }, 0);
+    eq(sum, 6);
+  },
+  'If no intitialValue, it should exclude holes too.': function() {
+    var sum = reduce([,1,2,,3,], function(a, b) {
+      return a + b;
+    });
+    eq(sum, 6);
   },
   'If array is empty, and no initialValue, it should throw a TypeError.': function() {
     fail();
