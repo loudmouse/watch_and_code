@@ -99,31 +99,45 @@
     var startingIndex = 0;
     var previousValue = initialValue;
     var currentValue = array[startingIndex];
+    var length = array.length;
+    var arrayIndex = Object.keys(array);
 
     // no initialValue
     if (arguments.length < 3) {
+
+      if (arrayIndex.length === 0) {
+        throw new TypeError("Reduce of empty array with no initial value.");
+      }
+
+      // If array has one element just return it
+      if (arrayIndex.length === 1) {
+        var onlyIndex = arrayIndex[0];
+        var onlyElement = array[onlyIndex];
+        return onlyElement;
+      }
+
+      // we want to skip holes at the beginning of the array
+      while (startingIndex in array === false && startingIndex < length) {
+        startingIndex++;
+      }
+
       previousValue = array[startingIndex];
       startingIndex++;
 
-      // If array has one element just return it
-      if (Object.keys(array).length === 1) {
-        var singleIndex = Object.keys(array)[0];
-        var singleElement = array[singleIndex];
-        return singleElement;
-      }
+
 
     // Has initialValue
     } else {
       // need to check if array is empty
-      if (Object.keys(array).length === 0) {
+      if (arrayIndex.length === 0) {
         return initialValue;
       }
     }
 
 
-    for (var i = startingIndex; i < array.length; i++) {
+    for (var i = startingIndex; i < length; i++) {
       if (i in array) {
-        previousValue = callback(previousValue, array[i], i);
+        previousValue = callback(previousValue, array[i], i, array);
       }
     }
 
@@ -213,12 +227,24 @@ tests({
     eq(sum, 6);
   },
   'If array is empty, and no initialValue, it should throw a TypeError.': function() {
-    fail();
+    var isTypeError = false;
+    try {
+      reduce([], function() {});
+    } catch(e) {
+      isTypeError = (e instanceof TypeError);
+    }
+    eq(isTypeError, true);
   },
   'It should pass array as fourth argument to callback.': function() {
-    fail();
+    var originalArray = [1,2];
+    reduce(originalArray, function(previousValue, currentValue, currentIndex, array) {
+      eq(originalArray, array);
+    });
   }
 });
+
+
+
 
 
 </script>
