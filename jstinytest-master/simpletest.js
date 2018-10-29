@@ -38,18 +38,22 @@
  * MIT License. See https://github.com/joewalnes/jstinytest/
  */
 
+var TinyTestHelper = {
+  renderStats: function(tests, failures) {
+    var numberOfTests = Object.keys(tests).length;
+    var successes = numberOfTests - failures;
 
-// Done: Get successes to be green
-// Done: Make sure only 1 error per failure goes to the console.
-// Done: Make failures red
-// Done: Show stack traces for failures
+    var summaryString = 'Ran ' + numberOfTests + ' tests: '
+                      + successes + ' successes, '
+                      + failures + ' failures.';
 
-// Todo: Only show stack traces if you click expand
-// Todo: Output summary statistics to DOM
-
+    var summaryElement = document.createElement('h1');
+    summaryElement.textContent = summaryString;
+    document.body.appendChild(summaryElement);
+  }
+};
 
 var TinyTest = {
-
     run: function(tests) {
         var failures = 0;
         for (var testName in tests) {
@@ -67,6 +71,7 @@ var TinyTest = {
         setTimeout(function() { // Give document a chance to complete
             if (window.document && document.body) {
                 document.body.style.backgroundColor = (failures == 0 ? '#99ff99' : '#ff9999');
+                TinyTestHelper.renderStats (tests, failures);
             }
         }, 0);
     },
