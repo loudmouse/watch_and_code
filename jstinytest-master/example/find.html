@@ -40,41 +40,75 @@
   // It should pass currentIndex as the second argument to the callback.
   // It should pass the array as the third argument to the callback.
   // It should accept an optionalThis.
+  // It should not skip holes.
   // If the currentValue passed to the callback returns true, then the function should return that element.
   // If none of the elements passed as currentValue evaluate to true, then the function should return undefined.
-  // It should not skip holes.
   // It should not mutate the original array.
 
 
 // This is where the function will go.
+function find(array, callback, optionalThis) {
+  var findCallback = callback;
+
+  if (optionalThis) {
+    findCallback = findCallback.bind(optionalThis);
+  }
+
+  for (var i = 0; i < array.length; i++) {
+    findCallback(array[i], i, array);
+  }
+}
 
 
 // This is where the tests will go.
-
 tests({
 
-  'It should run the callback function array.length number of times.': function() {
-    fail();
+  'It should run the callback array.length number of times.': function() {
+    var numberOfTimesCallbackHasRun = 0;
+    var array = [1,2];
+    var length = array.length;
+    find(array, function() {
+      numberOfTimesCallbackHasRun++;
+    });
+    eq(numberOfTimesCallbackHasRun, length)
   },
   'It should pass currentValue as the first argument to the callback.': function() {
-    fail();
+    find([1], function(currentValue) {
+      eq(currentValue, 1);
+    });
   },
   'It should pass currentIndex as the second argument to the callback.': function() {
-    fail();
+    find([1], function(currentValue, currentIndex){
+      eq(currentIndex, 0);
+    });
   },
   'It should pass the array as the third argument to the callback.': function() {
-    fail();
+    var testArray = [1,2];
+    find(testArray, function(currentValue, currentIndex, originalArray){
+      eq(originalArray, testArray);
+    });
   },
   'It should accept an optionalThis.': function() {
+    find([1], function(){
+      eq(this.Nolan, 'My name is Nolan, and I am an optionalThis.')
+    }, {Nolan: 'My name is Nolan, and I am an optionalThis.'})
+  },
+  'It should not skip holes.': function() {
+    var numberOfTimesCallbackHasRun = 0;
+    var array = [1,,3];
+    var length = array.length;
+    find(array, function(currentValue){
+      numberOfTimesCallbackHasRun++;
+    });
+    eq(numberOfTimesCallbackHasRun, length);
+  },
+  'It should return an element': function() {
     fail();
   },
   'If the currentValue passed to the callback returns true, then the function should return that element.': function() {
     fail();
   },
   'If none of the elements passed as currentValue evaluate to true, then the function should return undefined.': function() {
-    fail();
-  },
-  'It should not skip holes.': function() {
     fail();
   },
   'It should not mutate the original array.': function() {
