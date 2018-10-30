@@ -105,7 +105,11 @@ tests({
     eq(numberOfTimesCallbackHasRun, length);
   },
   'It should return an element': function() {
-    fail();
+    var array = [2];
+    var returnedValueOfFind = find(array, function(currentValue){
+      return currentValue > 1;
+    })
+    eq(typeof(returnedValueOfFind), "number");
   },
   'If the currentValue passed to the callback returns true, then the function should return that element.': function() {
     var timesRun = 0;
@@ -115,7 +119,7 @@ tests({
       return currentValue > 1;
     })
     eq(returnValueOfFind, 2);
-    eq(timesRun, 1)
+    eq(timesRun, 1);
   },
   'If none of the elements passed as currentValue evaluate to true, then the function should return undefined.': function() {
     var array = [1,2];
@@ -125,7 +129,14 @@ tests({
     eq(returnValueOfFind, undefined);
   },
   'It should not mutate the original array.': function() {
-    fail();
+    var array = [1,2,3];
+    find(array, function(currentValue){
+      return currentValue === 3;
+    });
+    eq(array.length, 3);
+    eq(array[0], 1);
+    eq(array[1], 2);
+    eq(array[2], 3);
   }
 });
 
