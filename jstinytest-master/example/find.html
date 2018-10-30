@@ -55,7 +55,9 @@ function find(array, callback, optionalThis) {
   }
 
   for (var i = 0; i < array.length; i++) {
-    findCallback(array[i], i, array);
+    if (findCallback(array[i], i, array)) {
+      return array[i];
+    }
   }
 }
 
@@ -106,10 +108,21 @@ tests({
     fail();
   },
   'If the currentValue passed to the callback returns true, then the function should return that element.': function() {
-    fail();
+    var timesRun = 0;
+    var array = [2,1,2,3,4];
+    var returnValueOfFind = find(array, function(currentValue){
+      timesRun++;
+      return currentValue > 1;
+    })
+    eq(returnValueOfFind, 2);
+    eq(timesRun, 1)
   },
   'If none of the elements passed as currentValue evaluate to true, then the function should return undefined.': function() {
-    fail();
+    var array = [1,2];
+    var returnValueOfFind = find(array, function(currentValue){
+      return currentValue < 1;
+    })
+    eq(returnValueOfFind, undefined);
   },
   'It should not mutate the original array.': function() {
     fail();
