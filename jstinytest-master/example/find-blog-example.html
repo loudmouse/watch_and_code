@@ -55,8 +55,11 @@ function find(array, callback, optionalThis) {
   }
 
   for(var i = 0; i < array.length; i++){
-    findCallback(array[i], i, array);
+    if (findCallback(array[i], i, array)) {
+      return array[i];
+    }
   }
+  return undefined;
 }
 
 
@@ -101,17 +104,31 @@ tests({
     });
     eq(numberOfTimesCallbackHasRun, array.length);
   },
-  '7. It should return an element': function() {
-    fail();
+  '7. If the currentValue passed to the callback returns true, then the function should return that element.': function() {
+    var numberOfTimesCallbackHasRun = 0;
+    var returnValueOfFind = find([1,2,3,4,5], function(currentValue){
+      numberOfTimesCallbackHasRun++
+      return currentValue === 3;
+    })
+    eq(returnValueOfFind, 3);
+    eq(numberOfTimesCallbackHasRun, 3);
   },
-  '8. If the currentValue passed to the callback returns true, then the function should return that element.': function() {
-    fail();
+  '8. If none of the elements passed as currentValue evaluate to true, then the function should return undefined.': function() {
+    var returnValueOfFind = find([1], function(currentValue){
+      return currentValue === 4;
+    })
+    eq(returnValueOfFind, undefined);
   },
-  '9. If none of the elements passed as currentValue evaluate to true, then the function should return undefined.': function() {
+  '9. It should not mutate the original array.': function() {
     fail();
-  },
-  '10. It should not mutate the original array.': function() {
-    fail();
+    var originalArray = [1,2,3];
+    find(originalArray, function(currentValue){
+      return currentValue === 3;
+    })
+    eq(originalArray.length, 3);
+    eq(originalArray[0], 1);
+    eq(originalArray[1], 2);
+    eq(originalArray[2], 3);
   }
 });
 
