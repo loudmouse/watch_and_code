@@ -120,7 +120,6 @@ tests({
     eq(returnValueOfFind, undefined);
   },
   '9. It should not mutate the original array.': function() {
-    fail();
     var originalArray = [1,2,3];
     find(originalArray, function(currentValue){
       return currentValue === 3;
