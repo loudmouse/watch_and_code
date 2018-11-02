@@ -6,7 +6,7 @@
 -[x] Array.prototype.filter()
 -[x] Array.prototype.map()
 -[x] Array.prototype.reduce()
--[ ] Array.prototype.find()
+-[x] Array.prototype.find()
 -[ ] Array.prototype.findIndex()
 -[ ] Array.prototype.every()
 -[ ] Array.prototype.some()
